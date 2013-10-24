@@ -26,7 +26,15 @@ void MainWindow::on_pathLineEdit_returnPressed()
 
 void MainWindow::on_confirmPathButton_clicked()
 {
-    bitmap  = new Bitmap(ui->pathLineEdit->text().toStdString().c_str());
+    std::string filepath(ui->pathLineEdit->text().toStdString());
+
+    bitmap  = new Bitmap(filepath.c_str());
+
+    if (bitmap->isValid)
+    {
+        QPixmap *pixmap = new QPixmap(filepath.c_str());
+        ui->image1Label->setPixmap(*pixmap);
+    }
 }
 
 void MainWindow::on_okTestButton_clicked()

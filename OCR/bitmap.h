@@ -1,6 +1,8 @@
 #ifndef BITMAP_H
 #define BITMAP_H
 
+#include <string>
+
 
 #pragma pack(2)
 
@@ -57,7 +59,8 @@ public:
     Bitmap(const char*);
     ~Bitmap();
 
-    const char *filename;
+    bool isValid;
+
     BITMAPFILEHEADER fh;
     BITMAPINFOHEADER ih;
     RGBQUAD* pixels;

@@ -3,11 +3,9 @@
 
 #include "Bitmap.h"
 
-Bitmap::Bitmap(const char* path)
+Bitmap::Bitmap(const char* filename) : isValid(false)
 {
     FILE* file;
-
-    this->filename = path;
     file = fopen(filename, "rb");
 
     if (file != NULL)
@@ -19,6 +17,7 @@ Bitmap::Bitmap(const char* path)
             std::cerr << "File is not of bitmap type" << std::endl;
             return;
         }
+        this->isValid = true;
 
         fread(&this->ih, sizeof(BITMAPINFOHEADER), 1, file);
 
