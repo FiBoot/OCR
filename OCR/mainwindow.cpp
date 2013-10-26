@@ -12,10 +12,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    delete bitmap;
     delete ui;
 }
-
-
 
 
 // SLOT
@@ -29,11 +28,15 @@ void MainWindow::on_confirmPathButton_clicked()
     std::string filepath(ui->pathLineEdit->text().toStdString());
 
     bitmap  = new Bitmap(filepath.c_str());
-
     if (bitmap->isValid)
     {
         QPixmap *pixmap = new QPixmap(filepath.c_str());
         ui->image1Label->setPixmap(*pixmap);
+
+        bitmap->negative();
+
+        pixmap = new QPixmap(bitmap->getTmpfilepath());
+        ui->image2Label->setPixmap(*pixmap);
     }
 }
 

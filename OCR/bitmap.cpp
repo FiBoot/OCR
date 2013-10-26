@@ -5,7 +5,7 @@
 
 Bitmap::Bitmap(const char* filename) : isValid(false)
 {
-    FILE* file;
+    FILE *file;
     file = fopen(filename, "rb");
 
     if (file != NULL)
@@ -33,3 +33,43 @@ Bitmap::Bitmap(const char* filename) : isValid(false)
         return;
     }
 }
+
+Bitmap::~Bitmap()
+{
+    remove(TMPFILENAME);
+}
+
+
+void Bitmap::negative()
+{
+    FILE *file;
+
+    file = fopen(TMPFILENAME, "w");
+
+    for (int i = 0; i < this->ih.biWidth * this->ih.biHeight; i++)
+    {
+        if ((pixels[i].rgbBlue + pixels[i].rgbGreen + pixels[i].rgbRed) / 3 > 128)
+        {
+            pixels[i].rgbBlue = WHITE;
+            pixels[i].rgbGreen = WHITE;
+            pixels[i].rgbRed = WHITE;
+        } else {
+            pixels[i].rgbBlue = BLACK;
+            pixels[i].rgbGreen = BLACK;
+            pixels[i].rgbRed = BLACK;
+        }
+    }
+
+    fwrite(&this->fh, sizeof(BITMAPFILEHEADER), 1, file);
+    fwrite(&this->ih, sizeof(BITMAPINFOHEADER), 1, file);
+    fwrite(pixels, this->ih.biWidth * this->ih.biHeight * sizeof(RGBQUAD), 1, file);
+
+    fclose(file);
+}
+
+
+const char *Bitmap::getTmpfilepath()
+{
+    return TMPFILENAME;
+}
+

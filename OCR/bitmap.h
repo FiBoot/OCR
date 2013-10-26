@@ -4,6 +4,19 @@
 #include <string>
 
 
+#define BF_TYPE      0x4D42        /* "MB" */
+
+#define BI_RGB       0             /* No compression - straight BGR data */
+#define BI_RLE8      1             /* 8-bit run-length compression */
+#define BI_RLE4      2             /* 4-bit run-length compression */
+#define BI_BITFIELDS 3             /* RGB bitmap with RGB masks */
+
+#define BLACK        0
+#define WHITE        255
+
+#define TMPFILENAME  "OCRTMPFILE.bmp"
+
+
 #pragma pack(2)
 
 typedef struct                       /**** BMP file header structure ****/
@@ -17,8 +30,6 @@ typedef struct                       /**** BMP file header structure ****/
 
 #pragma pack()
 
-
-#  define BF_TYPE 0x4D42             /* "MB" */
 
 typedef struct                       /**** BMP file info structure ****/
 {
@@ -36,14 +47,6 @@ typedef struct                       /**** BMP file info structure ****/
 } BITMAPINFOHEADER;
 
 
-/*
- * Constants for the biCompression field...
- */
-#  define BI_RGB       0             /* No compression - straight BGR data */
-#  define BI_RLE8      1             /* 8-bit run-length compression */
-#  define BI_RLE4      2             /* 4-bit run-length compression */
-#  define BI_BITFIELDS 3             /* RGB bitmap with RGB masks */
-
 typedef struct                       /**** Colormap entry structure ****/
 {
     unsigned char  rgbBlue;          /* Blue value */
@@ -53,18 +56,22 @@ typedef struct                       /**** Colormap entry structure ****/
 } RGBQUAD;
 
 
+
 class Bitmap
 {
 public:
     Bitmap(const char*);
     ~Bitmap();
 
-    bool isValid;
+    void negative();
+    const char *getTmpfilepath();
 
+public:
     BITMAPFILEHEADER fh;
     BITMAPINFOHEADER ih;
-    RGBQUAD* pixels;
-
+    RGBQUAD *pixels;
+    bool isValid;
 };
 
-#endif // BITMAP_H
+
+#endif
