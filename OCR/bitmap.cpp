@@ -40,9 +40,10 @@ Bitmap::~Bitmap()
 }
 
 
-void Bitmap::negative()
+std::stack<bool> Bitmap::negative()
 {
     FILE *file;
+    std::stack<bool> stack;
 
     file = fopen(TMPFILENAME, "w");
 
@@ -53,10 +54,12 @@ void Bitmap::negative()
             pixels[i].rgbBlue = WHITE;
             pixels[i].rgbGreen = WHITE;
             pixels[i].rgbRed = WHITE;
+            stack.push(0);
         } else {
             pixels[i].rgbBlue = BLACK;
             pixels[i].rgbGreen = BLACK;
             pixels[i].rgbRed = BLACK;
+            stack.push(1);
         }
     }
 
@@ -65,6 +68,7 @@ void Bitmap::negative()
     fwrite(pixels, this->ih.biWidth * this->ih.biHeight * sizeof(RGBQUAD), 1, file);
 
     fclose(file);
+    return stack;
 }
 
 

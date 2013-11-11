@@ -16,6 +16,8 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    void process();
+
 
 private slots:
     void on_pathLineEdit_returnPressed();
@@ -26,7 +28,6 @@ private slots:
 
 private:
     Ui::MainWindow  *ui;
-    Bitmap *bitmap;
 };
 
 #endif // MAINWINDOW_H

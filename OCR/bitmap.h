@@ -2,6 +2,7 @@
 #define BITMAP_H
 
 #include <string>
+#include <stack>
 
 
 #define BF_TYPE      0x4D42        /* "MB" */
@@ -63,7 +64,7 @@ public:
     Bitmap(const char*);
     ~Bitmap();
 
-    void negative();
+    std::stack<bool> negative();
     const char *getTmpfilepath();
 
 public:
